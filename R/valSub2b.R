@@ -57,6 +57,7 @@ validate <- function(evaluation){
     page <- submissionBundles$results
     if( length(page) > 0 ){
       for( i in 1:length(page) ){
+        validInhib <- paste0("AB", 1:20)
         # need to download the file
         submission <- synGetSubmission(page[[i]]$submission$id)
         filePath <- getFileLocation(submission)
@@ -79,10 +80,10 @@ validate <- function(evaluation){
         
         if(isValid){
           newStatus <- "VALIDATED"
-          sendMessage(list(), "Submission Acknowledgment", "Your submission has the right structure - you'll get another email once your submission is scored.")
+          sendMessage(list(submission@submissionContent@userId), "Submission Acknowledgment", "Your submission has the right structure - you'll get another email once your submission is scored.")
         } else{
           newStatus<-"INVALID"
-          sendMessage(list(), "Submission Acknowledgment", "Your submission is invalid. Please try again.")
+          sendMessage(list(submission@submissionContent@userId), "Submission Acknowledgment", "Your submission is invalid. Please try again.")
         }
         subStatus <- page[[i]]$submissionStatus
         subStatus$status <- newStatus
