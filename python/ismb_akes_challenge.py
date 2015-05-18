@@ -41,19 +41,19 @@ leaderboard_columns = {
 def score_sc1b(pathToSubmissionFile):
     sc1b = scoring.HPNScoringNetworkInsilico(pathToSubmissionFile)
     sc1b.compute_score()
-    return {'auc':sc1b.auc}
+    return ({'auc':sc1b.auc}, "Scoring executed successfully")
 
 def score_sc2b(pathToSubmissionFile):
     sc2b = scoring.HPNScoringPredictionInsilico(pathToSubmissionFile)
     sc2b.compute_all_rmse()
-    return {'rmse': sc2b.get_mean_rmse()}
+    return ({'rmse': sc2b.get_mean_rmse()}, "Scoring executed successfully")
 
 def score_submission(evaluation, submission):
     """dispatch submission to the proper scoring function"""
     if evaluation.id == "3910084":
-        return score_sc1b(submission.filepath)
-    elif evaluation.id == "3910084":
-        return score_sc2b(submission.filepath)
+        return score_sc1b(submission.filePath)
+    elif evaluation.id == "4013814":
+        return score_sc2b(submission.filePath)
     else:
         raise ValueError("Unrecognized evaluation %s, %s" % (evaluation.id, evaluation.name))
 
